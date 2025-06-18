@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:project_note/change_notifiers/notes_provider.dart';
 import 'package:project_note/core/constants.dart';
+import 'package:provider/provider.dart';
 
 import 'pages/main_page.dart';
 
@@ -13,24 +15,27 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Project Notes',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-        fontFamily: 'Poppins',
-        scaffoldBackgroundColor: background,
-        appBarTheme: Theme.of(context).appBarTheme.copyWith(
-          backgroundColor: Colors.transparent,
-          titleTextStyle: const TextStyle(
-            color: primary,
-            fontSize: 32,
-            fontFamily: 'Fredoka',
-            fontWeight: FontWeight.w600,
+    return ChangeNotifierProvider(
+      create: (context) => NotesProvider(),
+      child: MaterialApp(
+        title: 'Project Notes',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+          fontFamily: 'Poppins',
+          scaffoldBackgroundColor: background,
+          appBarTheme: Theme.of(context).appBarTheme.copyWith(
+            backgroundColor: Colors.transparent,
+            titleTextStyle: const TextStyle(
+              color: primary,
+              fontSize: 32,
+              fontFamily: 'Fredoka',
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
+        home: const MainPage(),
       ),
-      home: const MainPage(),
     );
   }
 }

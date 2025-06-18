@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:project_note/change_notifiers/new_note_controller.dart';
 import 'package:project_note/core/constants.dart';
 import 'package:project_note/core/constants.dart' as colors;
 import 'package:project_note/widgets/note_icon_button.dart';
 import 'package:project_note/widgets/note_icon_button_outlined.dart';
+import 'package:provider/provider.dart';
 
 class NewOrEditNotePage extends StatefulWidget {
   const NewOrEditNotePage({required this.isNewNote, super.key});
@@ -18,21 +20,25 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController noteController = TextEditingController();
   late final FocusNode focusNode;
-
-  late bool readOnly;
+  late final NewNoteController newNoteController;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    newNoteController = context.read<NewNoteController>();
+
     focusNode = FocusNode();
 
-    if (widget.isNewNote) {
-      focusNode.requestFocus();
-      readOnly = false;
-    } else {
-      readOnly = true;
-    }
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (widget.isNewNote) {
+        focusNode.requestFocus();
+        newNoteController.readOnly = false;
+      } else {
+        newNoteController.readOnly = true;
+      }
+    });
   }
 
   @override
@@ -58,19 +64,20 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
         ),
         title: Text(widget.isNewNote ? 'New Note' : 'Edit Note'),
         actions: [
-          NoteIconButtonOutlined(
-            icon: readOnly ? FontAwesomeIcons.pen : FontAwesomeIcons.bookOpen,
-            onPressed: () {
-              setState(() {
-                readOnly = !readOnly;
-
-                if (readOnly) {
+          Selector<NewNoteController, bool>(
+            selector: (context, newNoteController) =>
+                newNoteController.readOnly,
+            builder: (context, readOnly, child) => NoteIconButtonOutlined(
+              icon: readOnly ? FontAwesomeIcons.pen : FontAwesomeIcons.bookOpen,
+              onPressed: () {
+                newNoteController.readOnly = !readOnly;
+                if (newNoteController.readOnly) {
                   FocusScope.of(context).unfocus();
                 } else {
                   focusNode.requestFocus();
                 }
-              });
-            },
+              },
+            ),
           ),
           NoteIconButtonOutlined(
             icon: FontAwesomeIcons.check,
@@ -82,15 +89,24 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            TextField(
-              controller: titleController,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              decoration: const InputDecoration(
-                hintText: 'Title here',
-                hintStyle: TextStyle(color: gray300),
-                border: InputBorder.none,
+            Selector<NewNoteController, bool>(
+              selector: (context, controller) => controller.readOnly,
+              builder: (context, readOnly, child) => TextField(
+                controller: titleController,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+                decoration: const InputDecoration(
+                  hintText: 'Title here',
+                  hintStyle: TextStyle(color: gray300),
+                  border: InputBorder.none,
+                ),
+                canRequestFocus: !readOnly,
+                onChanged: (newValue) {
+                  newNoteController.title = newValue;
+                },
               ),
-              canRequestFocus: !readOnly,
             ),
             if (!widget.isNewNote) ...[
               const Row(
@@ -158,7 +174,27 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
                       const SizedBox(width: 8),
                       NoteIconButton(
                         icon: FontAwesomeIcons.circlePlus,
-                        onPressed: () {},
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => Material(
+                              child: Column(
+                                children: [
+                                  Text('Add tag'),
+                                  TextField(
+                                    decoration: InputDecoration(
+                                      hintText: 'Add tag (< 16 characters)',
+                                    ),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {},
+                                    child: Text('Add tag'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -181,21 +217,24 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
               child: Divider(color: gray500, thickness: 2),
             ),
             // Note input area
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.4,
-              child: TextField(
-                controller: noteController,
-                maxLines: null,
-                expands: true,
-                readOnly: readOnly,
-                focusNode: focusNode,
-                textAlignVertical: TextAlignVertical.top,
-                style: TextStyle(fontSize: 16, color: colors.black),
-                decoration: InputDecoration(
-                  hintText: 'Write your note here...',
-                  hintStyle: TextStyle(color: gray300),
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.all(8.0),
+            Selector<NewNoteController, bool>(
+              selector: (_, controller) => controller.readOnly,
+              builder: (_, readOnly, __) => SizedBox(
+                height: MediaQuery.of(context).size.height * 0.4,
+                child: TextField(
+                  controller: noteController,
+                  maxLines: null,
+                  expands: true,
+                  readOnly: readOnly,
+                  focusNode: focusNode,
+                  textAlignVertical: TextAlignVertical.top,
+                  style: TextStyle(fontSize: 16, color: colors.black),
+                  decoration: InputDecoration(
+                    hintText: 'Write your note here...',
+                    hintStyle: TextStyle(color: gray300),
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.all(8.0),
+                  ),
                 ),
               ),
             ),
