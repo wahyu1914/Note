@@ -23,14 +23,13 @@ class _MainPageState extends State<MainPage> {
   late String dropdownValue = dropdownOptions.first;
 
   bool isDescending = true;
-
   bool isGrid = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Awesome Notes'),
+        title: const Text('Kelompok 1 Notes'),
         actions: [
           NoteIconButtonOutlined(
             icon: FontAwesomeIcons.arrowRightFromBracket,
@@ -42,7 +41,9 @@ class _MainPageState extends State<MainPage> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => NewOrEditNotePage()),
+            MaterialPageRoute(
+              builder: (context) => const NewOrEditNotePage(isNewNote: true),
+            ),
           );
         },
       ),
@@ -57,7 +58,7 @@ class _MainPageState extends State<MainPage> {
                   icon: isDescending
                       ? FontAwesomeIcons.arrowDown
                       : FontAwesomeIcons.arrowUp,
-                      size: 18,
+                  size: 18,
                   onPressed: () {
                     setState(() {
                       isDescending = !isDescending;
@@ -107,7 +108,7 @@ class _MainPageState extends State<MainPage> {
                   icon: isGrid
                       ? FontAwesomeIcons.tableCellsLarge
                       : FontAwesomeIcons.bars,
-                      size: 18,
+                  size: 18,
                   onPressed: () {
                     setState(() {
                       isGrid = !isGrid;

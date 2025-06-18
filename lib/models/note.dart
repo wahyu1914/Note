@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Note {
   Note({
     required this.title,
@@ -15,3 +17,4 @@ class Note {
   final int dateModified;
   final List<String>? tags;
 }
+
