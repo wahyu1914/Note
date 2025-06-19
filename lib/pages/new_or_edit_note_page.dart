@@ -7,6 +7,9 @@ import 'package:project_note/widgets/note_icon_button.dart';
 import 'package:project_note/widgets/note_icon_button_outlined.dart';
 import 'package:provider/provider.dart';
 
+import '../widgets/dialog_card.dart';
+import '../widgets/new_tag_dialog.dart';
+
 class NewOrEditNotePage extends StatefulWidget {
   const NewOrEditNotePage({required this.isNewNote, super.key});
 
@@ -174,100 +177,14 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
                       const SizedBox(width: 8),
                       NoteIconButton(
                         icon: FontAwesomeIcons.circlePlus,
-                        onPressed: () {
-                          showDialog(
+                        onPressed: () async {
+                        final String? tag = await showDialog<String?>(
                             context: context,
-                            builder: (context) => Center(
-                              child: Material(
-                                type: MaterialType.transparency,
-                                child: Container(
-                                  width:
-                                      MediaQuery.sizeOf(context).width * 0.75,
-                                  padding: const EdgeInsets.all(24.0),
-                                  decoration: BoxDecoration(
-                                    color: white,
-                                    border: Border.all(width: 2, color: black),
-                                    boxShadow: [
-                                      BoxShadow(offset: Offset(4, 4)),
-                                    ],
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    children: [
-                                      Text(
-                                        'Add tag',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        textAlign: TextAlign.left,
-                                      ),
-                                      SizedBox(height: 24),
-                                      TextField(
-                                        decoration: InputDecoration(
-                                          hintText: 'Add tag (< 16 characters)',
-                                          contentPadding: EdgeInsets.symmetric(
-                                            horizontal: 12,
-                                            vertical: 12,
-                                          ),
-                                          isDense: true,
-                                          enabledBorder: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              12,
-                                            ),
-                                            borderSide: BorderSide(
-                                              color: primary,
-                                            ),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              12,
-                                            ),
-                                            borderSide: BorderSide(
-                                              color: primary,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(height: 24),
-                                      DecoratedBox(
-                                        decoration: BoxDecoration(
-                                          boxShadow: [
-                                            BoxShadow(
-                                              offset: Offset(2, 2),
-                                              color: black,
-                                            ),
-                                          ],
-                                          borderRadius: BorderRadius.circular(
-                                            8,
-                                          ),
-                                        ),
-                                        child: ElevatedButton(
-                                          onPressed: () {},
-                                          child: Text('Add tag'),
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: primary,
-                                            foregroundColor: white,
-                                            side: BorderSide(color: black),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            ),
-                                            elevation: 0,
-                                            tapTargetSize: MaterialTapTargetSize
-                                                .shrinkWrap,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
+                            builder: (context) =>
+                                DialogCard(child: NewTagDialog()),
                           );
+
+                          print('tag is: Stag');
                         },
                       ),
                     ],

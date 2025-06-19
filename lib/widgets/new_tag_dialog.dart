@@ -1,0 +1,97 @@
+import 'package:flutter/material.dart';
+
+import '../core/constants.dart';
+
+class NewTagDialog extends StatefulWidget {
+  const NewTagDialog({super.key});
+
+  @override
+  State<NewTagDialog> createState() => _NewTagDialogState();
+}
+
+class _NewTagDialogState extends State<NewTagDialog> {
+  late final TextEditingController tagController;
+
+  late final GlobalKey<FormFieldState> tagKey;
+
+  @override
+  void initState() {
+    super.initState();
+
+    tagController = TextEditingController();
+
+    tagKey = GlobalKey();
+  }
+
+  @override
+  void dispose() {
+    tagController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const Text(
+          'Add tag',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          textAlign: TextAlign.left,
+        ),
+        SizedBox(height: 24),
+        TextFormField(
+          key: tagKey,
+          controller: tagController,
+          decoration: InputDecoration(
+            hintText: 'Add tag (< 16 characters)',
+            contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            isDense: true,
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: primary),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: primary),
+            ),
+          ),
+          validator: (value) {
+            if (value!.trim().isEmpty) {
+              return 'No tags added';
+            } else if (value!.trim().length > 16) {
+              return 'Tags should not be more than 16 characters';
+            }
+            return null;
+          },
+        ),
+        SizedBox(height: 24),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            boxShadow: [BoxShadow(offset: Offset(2, 2), color: black)],
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: ElevatedButton(
+            onPressed: () {
+              if (tagKey.currentState?.validate() ?? false) {
+                Navigator.pop(context, tagController.text.trim());
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: primary,
+              foregroundColor: white,
+              side: BorderSide(color: black),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              elevation: 0,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+            child: Text('Add'),
+          ),
+        ),
+      ],
+    );
+  }
+}
