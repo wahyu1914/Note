@@ -3,13 +3,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:project_note/change_notifiers/new_note_controller.dart';
 import 'package:project_note/core/constants.dart';
 import 'package:project_note/core/constants.dart' as colors;
+import 'package:project_note/widgets/confirmation_dialog.dart';
 import 'package:project_note/widgets/note_icon_button.dart';
 import 'package:project_note/widgets/note_icon_button_outlined.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/dialog_card.dart';
 import '../widgets/new_tag_dialog.dart';
-import '../widgets/note_button.dart';
 import '../widgets/note_tag.dart';
 
 class NewOrEditNotePage extends StatefulWidget {
@@ -69,32 +69,7 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
         final bool? shouldSave = await showDialog<bool?>(
           context: context,
           builder: (_) => DialogCard(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Do you want to save the note?',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.start,
-                ),
-                SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    NoteButton(
-                      label: 'No',
-                      onPressed: () => Navigator.pop(context, false),
-                    ),
-                    SizedBox(width: 8),
-                    NoteButton(
-                      label: 'Yes',
-                      onPressed: () => Navigator.pop(context, true),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+            child: ConfirmationDialog(),
           ),
         );
         if (shouldSave == null) return;
@@ -173,119 +148,8 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
                   },
                 ),
               ),
-              if (!widget.isNewNote) ...[
-                const Row(
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        'Last Modified',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: gray500,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 5,
-                      child: Text(
-                        '17 June 2025, 03:35 PM',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: gray900,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const Row(
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        'Created',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: gray500,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 5,
-                      child: Text(
-                        '16 June 2025, 03:35 PM',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: gray900,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-              Row(
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: Row(
-                      children: [
-                        Text(
-                          'Tags',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: gray500,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        NoteIconButton(
-                          icon: FontAwesomeIcons.circlePlus,
-                          onPressed: () async {
-                            final String? tag = await showDialog<String?>(
-                              context: context,
-                              builder: (context) =>
-                                  DialogCard(child: NewTagDialog()),
-                            );
-
-                            if (tag != null) {
-                              newNoteController.addTag(tag);
-                            }
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 5,
-                    child: Selector<NewNoteController, List<String>>(
-                      selector: (_, newNoteController) =>
-                          newNoteController.tags,
-                      builder: (_, tags, __) => tags.isEmpty
-                          ? Text(
-                              'No tags added',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: gray900,
-                              ),
-                            )
-                          : SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: List.generate(
-                                  tags.length,
-                                  (index) => NoteTag(
-                                    label: tags[index],
-                                    onClosed: () {
-                                      newNoteController.removeTag(index);
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ),
-                    ),
-                  ),
-                ],
-              ),
-
+              
+NoteMeta
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 8.0),
                 child: Divider(color: gray500, thickness: 2),
