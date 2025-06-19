@@ -12,7 +12,7 @@ class NoNotes extends StatelessWidget {
         children: [
           Image.asset(
             'assets/images/Nope.jpg',
-            width: MediaQuery.sizeOf(context).width * 0.5e0,
+            width: MediaQuery.sizeOf(context).width * 0.50,
           ),
           const SizedBox(height: 32),
           const Text(

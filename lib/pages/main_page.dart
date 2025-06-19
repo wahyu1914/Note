@@ -4,6 +4,7 @@ import 'package:project_note/change_notifiers/new_note_controller.dart';
 import 'package:project_note/change_notifiers/notes_provider.dart';
 import 'package:project_note/core/constants.dart';
 import 'package:project_note/pages/new_or_edit_note_page.dart';
+import 'package:project_note/widgets/no_notes.dart';
 import 'package:project_note/widgets/note_icon_button.dart';
 import 'package:project_note/widgets/note_icon_button_outlined.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +14,7 @@ import '../widgets/note_fab.dart';
 import '../widgets/note_grid.dart';
 import '../widgets/notes_list.dart';
 import '../widgets/search_field.dart';
+import '../widgets/view_options.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -22,12 +24,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final List<String> dropdownOptions = ['Date modified', 'Date created'];
-
-  late String dropdownValue = dropdownOptions.first;
-
-  bool isDescending = true;
-  bool isGrid = true;
+  
 
   @override
   Widget build(BuildContext context) {
@@ -63,76 +60,9 @@ class _MainPageState extends State<MainPage> {
                   child: Column(
                     children: [
                       const SearchField(),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Row(
-                          children: [
-                            NoteIconButton(
-                              icon: isDescending
-                                  ? FontAwesomeIcons.arrowDown
-                                  : FontAwesomeIcons.arrowUp,
-                              size: 18,
-                              onPressed: () {
-                                setState(() {
-                                  isDescending = !isDescending;
-                                });
-                              },
-                            ),
-                            const SizedBox(width: 16),
-                            DropdownButton<String>(
-                              value: dropdownValue,
-                              icon: const Padding(
-                                padding: EdgeInsets.only(left: 16.0),
-                                child: FaIcon(
-                                  FontAwesomeIcons.arrowDownWideShort,
-                                  size: 18,
-                                  color: gray700,
-                                ),
-                              ),
-                              underline: const SizedBox.shrink(),
-                              borderRadius: BorderRadius.circular(16),
-                              isDense: true,
-                              items: dropdownOptions
-                                  .map(
-                                    (e) => DropdownMenuItem(
-                                      value: e,
-                                      child: Row(
-                                        children: [
-                                          Text(e),
-                                          if (e == dropdownValue) ...[
-                                            const SizedBox(width: 8),
-                                            const Icon(Icons.check),
-                                          ],
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                  .toList(),
-                              selectedItemBuilder: (context) =>
-                                  dropdownOptions.map((e) => Text(e)).toList(),
-                              onChanged: (newValue) {
-                                setState(() {
-                                  dropdownValue = newValue!;
-                                });
-                              },
-                            ),
-                            const Spacer(),
-                            NoteIconButton(
-                              icon: isGrid
-                                  ? FontAwesomeIcons.tableCellsLarge
-                                  : FontAwesomeIcons.bars,
-                              size: 18,
-                              onPressed: () {
-                                setState(() {
-                                  isGrid = !isGrid;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
+                      ViewOptions(),
                       Expanded(
-                        child: isGrid
+                        child: notesProvider.isGrid
                             ? NotesGrid(notes: notes)
                             : NotesList(notes: notes),
                       ),
@@ -145,32 +75,3 @@ class _MainPageState extends State<MainPage> {
   }
 }
 
-class NoNotes extends StatelessWidget {
-  const NoNotes({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            'assets/images/Nope.jpg',
-            width: MediaQuery.sizeOf(context).width * 0.50,
-          ),
-          const SizedBox(height: 32),
-          const Text(
-            'You have no notes yet!\nStart creating by pressing the + button below!',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Fredoka',
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
-  }
-}

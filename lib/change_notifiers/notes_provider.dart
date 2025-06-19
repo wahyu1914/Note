@@ -23,4 +23,30 @@ class NotesProvider extends ChangeNotifier {
     _notes.remove(note);
     notifyListeners();
   }
+
+  OrderOption _orderBy = OrderOption.dateModified;
+  set orderBy(OrderOption value) {
+    _orderBy = value;
+    notifyListeners();
+  }
+
+  OrderOption get orderBy => _orderBy;
+
+  bool _isDescending = true;
+  set isDescending(bool value) {
+    _isDescending = value;
+    notifyListeners();
+  }
+
+  bool get isDescending => _isDescending;
+
+  bool _isGrid = true;
+  set isGrid(bool value) {
+    _isGrid = value;
+    notifyListeners();
+  }
+
+  bool get isGrid => _isGrid;
 }
+
+enum OrderOption { dateModified, dateCreated }
