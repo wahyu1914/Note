@@ -39,6 +39,7 @@ dependencies:
   provider: ^6.1.5
 
   flutter_quill: ^11.4.1
+  intl: ^0.20.2
 
 
 dev_dependencies:

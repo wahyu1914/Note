@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../widgets/dialog_card.dart';
 import '../widgets/new_tag_dialog.dart';
+import '../widgets/note_tag.dart';
 
 class NewOrEditNotePage extends StatefulWidget {
   const NewOrEditNotePage({required this.isNewNote, super.key});
@@ -84,7 +85,10 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
           ),
           NoteIconButtonOutlined(
             icon: FontAwesomeIcons.check,
-            onPressed: () {},
+            onPressed: () {
+              newNoteController.saveNote(context);
+              Navigator.pop(context);
+            },
           ),
         ],
       ),
@@ -178,13 +182,15 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
                       NoteIconButton(
                         icon: FontAwesomeIcons.circlePlus,
                         onPressed: () async {
-                        final String? tag = await showDialog<String?>(
+                          final String? tag = await showDialog<String?>(
                             context: context,
                             builder: (context) =>
                                 DialogCard(child: NewTagDialog()),
                           );
 
-                          print('tag is: Stag');
+                          if (tag != null) {
+                            newNoteController.addTag(tag);
+                          }
                         },
                       ),
                     ],
@@ -192,12 +198,28 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
                 ),
                 Expanded(
                   flex: 5,
-                  child: Text(
-                    'No tags added',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: gray900,
-                    ),
+                  child: Selector<NewNoteController, List<String>>(
+                    selector: (_, newNoteController) => newNoteController.tags,
+                    builder: (_, tags, __) => tags.isEmpty
+                        ? Text(
+                            'No tags added',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: gray900,
+                            ),
+                          )
+                        : SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: List.generate(
+                                tags.length,
+                                (index) =>
+                                    NoteTag(label: tags[index], onClosed: () {
+                                      newNoteController.removeTag(index);
+                                    }),
+                              ),
+                            ),
+                          ),
                   ),
                 ),
               ],

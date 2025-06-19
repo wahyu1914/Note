@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 
 import '../core/constants.dart';
 
 import '../models/note.dart';
 
 import '../pages/new_or_edit_note_page.dart';
+import 'note_tag.dart';
 
 class NoteCard extends StatelessWidget {
-  const NoteCard({
-    required this.note,
-    required this.isInGrid, super.key});
+  const NoteCard({required this.note, required this.isInGrid, super.key});
 
   final Note note;
   final bool isInGrid;
@@ -22,7 +22,7 @@ class NoteCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const NewOrEditNotePage(isNewNote: false,),
+            builder: (context) => const NewOrEditNotePage(isNewNote: false),
           ),
         );
       },
@@ -42,56 +42,52 @@ class NoteCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'This is going to be a title',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-                color: gray900,
+            if (note.title != null) ...[
+              Text(
+                note.title!,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: gray900,
+                ),
               ),
-            ),
-            const SizedBox(height: 4),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: List.generate(
-                  3,
-                  (index) => Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: gray100,
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
-                    margin: EdgeInsets.only(right: 4),
-                    child: Text(
-                      'First chip',
-                      style: const TextStyle(fontSize: 12, color: gray700),
-                    ),
+              const SizedBox(height: 4),
+            ],
+            if (note.tags != null) ...[
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: List.generate(
+                    note.tags!.length,
+                    (index) => NoteTag(label: note.tags![index]),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 4),
-            if (isInGrid)
-              Expanded(
-                child: Text(
-                  'Some content',
-                  style: const TextStyle(color: gray700),
-                ),
-              )
-            else
-              Text(
-                'Some content',
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(color: gray700),
-              ),
+              const SizedBox(height: 4),
+            ],
+            if (note.content != null)
+              isInGrid
+                  ? Expanded(
+                      child: Text(
+                        note.content!,
+                        style: const TextStyle(color: gray700),
+                      ),
+                    )
+                  :  Text(
+                      note.content!,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(color: gray700),
+                    ),
+                    Spacer(),
             Row(
               children: [
                 Text(
-                  '14 June 2025',
+                  DateFormat('dd MMM, y').format(DateTime.fromMicrosecondsSinceEpoch(note.dateCreated
+                  ),
+                  ),
                   style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,

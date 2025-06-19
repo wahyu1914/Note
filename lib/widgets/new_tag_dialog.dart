@@ -44,6 +44,7 @@ class _NewTagDialogState extends State<NewTagDialog> {
         TextFormField(
           key: tagKey,
           controller: tagController,
+          autofocus: true,
           decoration: InputDecoration(
             hintText: 'Add tag (< 16 characters)',
             contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
@@ -56,6 +57,14 @@ class _NewTagDialogState extends State<NewTagDialog> {
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(color: primary),
             ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: Colors.red),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: Colors.red),
+            ),
           ),
           validator: (value) {
             if (value!.trim().isEmpty) {
@@ -64,6 +73,9 @@ class _NewTagDialogState extends State<NewTagDialog> {
               return 'Tags should not be more than 16 characters';
             }
             return null;
+          },
+          onChanged: (newValue) {
+            tagKey.currentState?.validate();
           },
         ),
         SizedBox(height: 24),
