@@ -7,9 +7,9 @@ class NotesProvider extends ChangeNotifier {
   final List<Note> _notes = [];
 
   List<Note> get notes => [..._notes]
-    ..sort(compare);
+    ..sort(_compare);
 
-int compare (Note note1, note2) {
+int _compare (Note note1, note2) {
   return note2.dateModified.compareTo(note1.dateModified);
 }
   void addNote(Note note) {
