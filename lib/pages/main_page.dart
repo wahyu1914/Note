@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:project_note/change_notifiers/new_note_controller.dart';
 import 'package:project_note/change_notifiers/notes_provider.dart';
-import 'package:project_note/core/constants.dart';
 import 'package:project_note/pages/new_or_edit_note_page.dart';
 import 'package:project_note/widgets/no_notes.dart';
-import 'package:project_note/widgets/note_icon_button.dart';
 import 'package:project_note/widgets/note_icon_button_outlined.dart';
 import 'package:provider/provider.dart';
 
@@ -24,8 +22,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +41,8 @@ class _MainPageState extends State<MainPage> {
             MaterialPageRoute(
               builder: (context) => ChangeNotifierProvider(
                 create: (context) => NewNoteController(),
-                child: const NewOrEditNotePage(isNewNote: true)),
+                child: const NewOrEditNotePage(isNewNote: true),
+              ),
             ),
           );
         },
@@ -53,19 +50,24 @@ class _MainPageState extends State<MainPage> {
       body: Consumer<NotesProvider>(
         builder: (context, notesProvider, child) {
           final List<Note> notes = notesProvider.notes;
-          return notes.isEmpty
+          return notes.isEmpty && notesProvider.searchTerm.isEmpty
               ? const NoNotes()
               : Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Column(
                     children: [
                       const SearchField(),
-                      ViewOptions(),
-                      Expanded(
-                        child: notesProvider.isGrid
-                            ? NotesGrid(notes: notes)
-                            : NotesList(notes: notes),
-                      ),
+                      if (notes.isNotEmpty) ...[
+                        const ViewOptions(),
+                        Expanded(
+                          child: notesProvider.isGrid
+                              ? NotesGrid(notes: notes)
+                              : NotesList(notes: notes),
+                        ),
+                      ] else
+                        Expanded(
+                          child: Text('No notes found for your search query!'),
+                        ),
                     ],
                   ),
                 );
@@ -74,4 +76,3 @@ class _MainPageState extends State<MainPage> {
     );
   }
 }
-
