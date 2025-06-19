@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:project_note/change_notifiers/notes_provider.dart';
@@ -12,7 +13,7 @@ class NewNoteController extends ChangeNotifier {
     _note = value;
     _title = _note!.title ?? '';
     _content = Document.fromJson(jsonDecode(_note!.contentJson));
-    _tags.addAll (_note!.tags ?? []);
+    _tags.addAll(_note!.tags ?? []);
     notifyListeners();
   }
 
@@ -55,12 +56,23 @@ class NewNoteController extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool get isNewNote => _note == null;
+
   bool get canSaveNote {
     final String? newTitle = title.isNotEmpty ? title : null;
     final String? newContent = content.toPlainText().trim().isNotEmpty
         ? content.toPlainText().trim()
         : null;
-    return newTitle != null || newContent != null;
+
+    if (isNewNote) {
+      return newTitle != null || newContent != null;
+    } else {
+      final newContentJson = jsonEncode(content.toDelta().toJson());
+      return (newTitle != note!.title ||
+              newContentJson != note!.contentJson ||
+              !listEquals(tags, note!.tags)) &&
+          (newTitle != null || newContent != null);
+    }
   }
 
   void saveNote(BuildContext context) {
