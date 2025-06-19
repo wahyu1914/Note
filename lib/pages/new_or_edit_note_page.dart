@@ -61,6 +61,11 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
       onPopInvoked: (didPop) async {
         if (didPop) return;
 
+        if (!newNoteController.canSaveNote) {
+          Navigator.pop(context);
+          return;
+        }
+
         final bool? shouldSave = await showDialog<bool?>(
           context: context,
           builder: (_) => DialogCard(
@@ -70,10 +75,7 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
               children: [
                 Text(
                   'Do you want to save the note?',
-                  style: TextStyle(
-                    fontSize: 16, 
-                    fontWeight: FontWeight.bold
-                  ),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.start,
                 ),
                 SizedBox(height: 16),
