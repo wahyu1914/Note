@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:project_note/core/extension.dart';
 import 'package:project_note/models/note.dart';
 
 import '../enums/order_option.dart';
+
 
 class NotesProvider extends ChangeNotifier {
   final List<Note> _notes = [];
@@ -13,10 +15,10 @@ class NotesProvider extends ChangeNotifier {
     final term = _searchTerm.toLowerCase().trim();
     final title = note.title?.toLowerCase() ?? '';
     final content = note.content?.toLowerCase() ?? '';
-    final tags = note.tags?.map((e) => e.toLowerCase) ?? [];
+    final tags = note.tags?.map((e) => e.toLowerCase()).toList() ?? [];
     return title.contains(term) ||
         content.contains(term) ||
-        tags.contains(term);
+        tags.deepContains(term);
   }
 
   int _compare(Note note1, note2) {

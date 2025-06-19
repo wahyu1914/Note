@@ -66,7 +66,12 @@ class _MainPageState extends State<MainPage> {
                         ),
                       ] else
                         Expanded(
-                          child: Text('No notes found for your search query!'),
+                          child: Center(
+                            child: Text(
+                              'No notes found for your search query!',
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
                         ),
                     ],
                   ),
