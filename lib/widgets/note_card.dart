@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:project_note/change_notifiers/new_note_controller.dart';
+import 'package:provider/provider.dart';
 
 import '../core/constants.dart';
 
@@ -22,7 +24,10 @@ class NoteCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const NewOrEditNotePage(isNewNote: false),
+            builder: (context) => ChangeNotifierProvider(
+              create: (_) => NewNoteController()..note = note,
+              child: const NewOrEditNotePage(isNewNote: false),
+            ),
           ),
         );
       },

@@ -24,6 +24,7 @@ class ConfirmationDialog extends StatelessWidget {
             NoteButton(
               label: 'No',
               onPressed: () => Navigator.pop(context, false),
+              isOutlined: true,
             ),
             SizedBox(width: 8),
             NoteButton(

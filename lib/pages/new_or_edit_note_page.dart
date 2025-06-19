@@ -23,17 +23,18 @@ class NewOrEditNotePage extends StatefulWidget {
 }
 
 class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
-  final TextEditingController titleController = TextEditingController();
-  final TextEditingController noteController = TextEditingController();
+  late final TextEditingController titleController;
+  late final TextEditingController noteController;
   late final FocusNode focusNode;
   late final NewNoteController newNoteController;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     newNoteController = context.read<NewNoteController>();
+
+    titleController = TextEditingController();
 
     focusNode = FocusNode();
 
