@@ -177,20 +177,64 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
                         onPressed: () {
                           showDialog(
                             context: context,
-                            builder: (context) => Material(
-                              child: Column(
-                                children: [
-                                  Text('Add tag'),
-                                  TextField(
-                                    decoration: InputDecoration(
-                                      hintText: 'Add tag (< 16 characters)',
-                                    ),
+                            builder: (context) => Center(
+                              child: Material(
+                                child: Container(
+                                  width:
+                                      MediaQuery.sizeOf(context).width * 0.75,
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: [
+                                      Text(
+                                        'Add tag',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      SizedBox(height: 32,),
+                                      TextField(
+                                        decoration: InputDecoration(
+                                          hintText: 'Add tag (< 16 characters)',
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
+                                            borderSide: BorderSide(
+                                              color: primary,
+                                            ),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
+                                            borderSide: BorderSide(
+                                              color: primary,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {},
+                                        child: Text('Add tag'),
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: primary,
+                                          foregroundColor: white,
+                                          side: BorderSide(color: black),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  ElevatedButton(
-                                    onPressed: () {},
-                                    child: Text('Add tag'),
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
                           );
