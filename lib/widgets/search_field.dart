@@ -39,26 +39,25 @@ class _SearchFieldState extends State<SearchField> {
       controller: searchController,
       decoration: InputDecoration(
         hintText: 'Search notes...',
-        hintStyle: TextStyle(fontSize: 12),
-        prefixIcon: Icon(FontAwesomeIcons.magnifyingGlass, size: 16),
+        hintStyle: const TextStyle(fontSize: 12),
+        prefixIcon: const Icon(FontAwesomeIcons.magnifyingGlass, size: 16),
         suffixIcon: ListenableBuilder(
           listenable: searchController,
-          builder: (context, widget) => searchController.text.isNotEmpty
-              ? widget!
-              : SizedBox.shrink(),
-              child: GestureDetector(
-                  onTap: () {
-                    searchController.clear();
-                  },
-                  child: Icon(FontAwesomeIcons.circleXmark),
-                ),
+          builder: (context, clearButton) =>
+              searchController.text.isNotEmpty ? widget : const SizedBox.shrink(),
+          child: GestureDetector(
+            onTap: () {
+              searchController.clear();
+            },
+            child: Icon(FontAwesomeIcons.circleXmark),
+          ),
         ),
         fillColor: white,
         filled: true,
         isDense: true,
         contentPadding: EdgeInsets.zero,
-        prefixIconConstraints: BoxConstraints(minWidth: 42, minHeight: 42),
-        suffixIconConstraints: BoxConstraints(minWidth: 42, minHeight: 42),
+        prefixIconConstraints: const BoxConstraints(minWidth: 42, minHeight: 42),
+        suffixIconConstraints: const BoxConstraints(minWidth: 42, minHeight: 42),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(color: primary),

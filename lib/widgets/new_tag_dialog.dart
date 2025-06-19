@@ -72,7 +72,7 @@ class _NewTagDialogState extends State<NewTagDialog> {
           validator: (value) {
             if (value!.trim().isEmpty) {
               return 'No tags added';
-            } else if (value!.trim().length > 16) {
+            } else if (value.trim().length > 16) {
               return 'Tags should not be more than 16 characters';
             }
             return null;
