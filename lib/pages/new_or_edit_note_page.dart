@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:project_note/change_notifiers/new_note_controller.dart';
 import 'package:project_note/core/constants.dart';
@@ -34,7 +35,8 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
 
     newNoteController = context.read<NewNoteController>();
 
-    titleController = TextEditingController();
+    titleController = TextEditingController(text: newNoteController.title);
+    noteController = TextEditingController(text: newNoteController.content.toPlainText());
 
     focusNode = FocusNode();
 
@@ -44,6 +46,7 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
         newNoteController.readOnly = false;
       } else {
         newNoteController.readOnly = true;
+        noteController.text = newNoteController.content.toPlainText();
       }
     });
   }
@@ -149,7 +152,7 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
                 ),
               ),
 
-              NoteMetadata(isNewNote: widget.isNewNote),
+              NoteMetadata(note: newNoteController.note),
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 8.0),
                 child: Divider(color: gray500, thickness: 2),
@@ -173,6 +176,10 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.all(8.0),
                     ),
+                    onChanged: (newValue) {
+                      // Convert String to Document for flutter_quill
+                      newNoteController.content = Document()..insert(0, newValue);
+                    }
                   ),
                 ),
               ),

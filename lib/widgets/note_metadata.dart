@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:project_note/change_notifiers/new_note_controller.dart';
 import 'package:project_note/core/constants.dart';
+import 'package:project_note/core/utils.dart';
+import 'package:project_note/models/note.dart';
 import 'package:project_note/widgets/dialog_card.dart';
 import 'package:project_note/widgets/new_tag_dialog.dart';
 import 'package:project_note/widgets/note_icon_button.dart';
@@ -9,8 +11,9 @@ import 'package:project_note/widgets/note_tag.dart';
 import 'package:provider/provider.dart';
 
 class NoteMetadata extends StatefulWidget {
-  const NoteMetadata({required this.isNewNote, super.key});
-  final bool isNewNote;
+  const NoteMetadata({ required this.note, super.key});
+
+  final Note? note;
 
   @override
   State<NoteMetadata> createState() => _NoteMetadataState();
@@ -30,8 +33,8 @@ class _NoteMetadataState extends State<NoteMetadata> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (!widget.isNewNote) ...[
-          const Row(
+        if (widget.note != null) ...[
+          Row(
             children: [
               Expanded(
                 flex: 3,
@@ -43,13 +46,13 @@ class _NoteMetadataState extends State<NoteMetadata> {
               Expanded(
                 flex: 5,
                 child: Text(
-                  '17 June 2025, 03:35 PM',
+                  toLongDate(widget.note!.dateModified),
                   style: TextStyle(fontWeight: FontWeight.bold, color: gray900),
                 ),
               ),
             ],
           ),
-          const Row(
+          Row(
             children: [
               Expanded(
                 flex: 3,
@@ -61,7 +64,7 @@ class _NoteMetadataState extends State<NoteMetadata> {
               Expanded(
                 flex: 5,
                 child: Text(
-                  '16 June 2025, 03:35 PM',
+                  toLongDate(widget.note!.dateCreated),
                   style: TextStyle(fontWeight: FontWeight.bold, color: gray900),
                 ),
               ),
