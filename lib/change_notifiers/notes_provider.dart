@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:project_note/models/note.dart';
 
+import '../enums/order_option.dart';
+
 class NotesProvider extends ChangeNotifier {
   final List<Note> _notes = [];
 
-  List<Note> get notes => [..._notes];
+  List<Note> get notes => [..._notes]
+    ..sort(compare);
 
+int compare (Note note1, note2) {
+  return note2.dateModified.compareTo(note1.dateModified);
+}
   void addNote(Note note) {
     _notes.add(note);
     notifyListeners();
@@ -48,5 +54,3 @@ class NotesProvider extends ChangeNotifier {
 
   bool get isGrid => _isGrid;
 }
-
-enum OrderOption { dateModified, dateCreated }

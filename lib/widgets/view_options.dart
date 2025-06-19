@@ -4,6 +4,7 @@ import 'package:project_note/change_notifiers/notes_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../core/constants.dart';
+import '../enums/order_option.dart';
 import 'note_icon_button.dart';
 
 class ViewOptions extends StatefulWidget {
