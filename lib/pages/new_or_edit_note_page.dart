@@ -10,6 +10,7 @@ import 'package:project_note/widgets/note_icon_button_outlined.dart';
 import 'package:project_note/widgets/note_metadata.dart';
 import 'package:provider/provider.dart';
 
+import '../core/dialog.dart';
 import '../widgets/dialog_card.dart';
 import '../widgets/new_tag_dialog.dart';
 import '../widgets/note_tag.dart';
@@ -71,10 +72,7 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
           return;
         }
 
-        final bool? shouldSave = await showDialog<bool?>(
-          context: context,
-          builder: (_) => DialogCard(child: ConfirmationDialog()),
-        );
+        final bool? shouldSave = await showConfirmationDialog(context: context);
         if (shouldSave == null) return;
 
         if (!context.mounted) return;
