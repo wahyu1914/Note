@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../widgets/dialog_card.dart';
 import '../widgets/new_tag_dialog.dart';
+import '../widgets/note_button.dart';
 import '../widgets/note_tag.dart';
 
 class NewOrEditNotePage extends StatefulWidget {
@@ -55,203 +56,261 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: NoteIconButtonOutlined(
-            icon: FontAwesomeIcons.chevronLeft,
-            onPressed: () {
-              Navigator.maybePop(context);
-            },
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) return;
+
+        final bool? shouldSave = await showDialog<bool?>(
+          context: context,
+          builder: (_) => DialogCard(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Do you want to save the note?',
+                  style: TextStyle(
+                    fontSize: 16, 
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+                SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    NoteButton(
+                      label: 'No',
+                      onPressed: () => Navigator.pop(context, false),
+                    ),
+                    SizedBox(width: 8),
+                    NoteButton(
+                      label: 'Yes',
+                      onPressed: () => Navigator.pop(context, true),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-        title: Text(widget.isNewNote ? 'New Note' : 'Edit Note'),
-        actions: [
-          Selector<NewNoteController, bool>(
-            selector: (context, newNoteController) =>
-                newNoteController.readOnly,
-            builder: (context, readOnly, child) => NoteIconButtonOutlined(
-              icon: readOnly ? FontAwesomeIcons.pen : FontAwesomeIcons.bookOpen,
+        );
+        if (shouldSave == null) return;
+
+        if (!context.mounted) return;
+
+        if (shouldSave) {
+          newNoteController.saveNote(context);
+        }
+        Navigator.pop(context);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: NoteIconButtonOutlined(
+              icon: FontAwesomeIcons.chevronLeft,
               onPressed: () {
-                newNoteController.readOnly = !readOnly;
-                if (newNoteController.readOnly) {
-                  FocusScope.of(context).unfocus();
-                } else {
-                  focusNode.requestFocus();
-                }
+                Navigator.maybePop(context);
               },
             ),
           ),
-          NoteIconButtonOutlined(
-            icon: FontAwesomeIcons.check,
-            onPressed: () {
-              newNoteController.saveNote(context);
-              Navigator.pop(context);
-            },
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
+          title: Text(widget.isNewNote ? 'New Note' : 'Edit Note'),
+          actions: [
             Selector<NewNoteController, bool>(
-              selector: (context, controller) => controller.readOnly,
-              builder: (context, readOnly, child) => TextField(
-                controller: titleController,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-                decoration: const InputDecoration(
-                  hintText: 'Title here',
-                  hintStyle: TextStyle(color: gray300),
-                  border: InputBorder.none,
-                ),
-                canRequestFocus: !readOnly,
-                onChanged: (newValue) {
-                  newNoteController.title = newValue;
+              selector: (context, newNoteController) =>
+                  newNoteController.readOnly,
+              builder: (context, readOnly, child) => NoteIconButtonOutlined(
+                icon: readOnly
+                    ? FontAwesomeIcons.pen
+                    : FontAwesomeIcons.bookOpen,
+                onPressed: () {
+                  newNoteController.readOnly = !readOnly;
+                  if (newNoteController.readOnly) {
+                    FocusScope.of(context).unfocus();
+                  } else {
+                    focusNode.requestFocus();
+                  }
                 },
               ),
             ),
-            if (!widget.isNewNote) ...[
-              const Row(
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: Text(
-                      'Last Modified',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: gray500,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 5,
-                    child: Text(
-                      '17 June 2025, 03:35 PM',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: gray900,
-                      ),
-                    ),
-                  ),
-                ],
+            Selector<NewNoteController, bool>(
+              selector: (_, newNoteController) => newNoteController.canSaveNote,
+              builder: (_, canSaveNote, __) => NoteIconButtonOutlined(
+                icon: FontAwesomeIcons.check,
+                onPressed: canSaveNote
+                    ? () {
+                        newNoteController.saveNote(context);
+                        Navigator.pop(context);
+                      }
+                    : null,
               ),
-              const Row(
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: Text(
-                      'Created',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: gray500,
-                      ),
-                    ),
+            ),
+          ],
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Selector<NewNoteController, bool>(
+                selector: (context, controller) => controller.readOnly,
+                builder: (context, readOnly, child) => TextField(
+                  controller: titleController,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
-                  Expanded(
-                    flex: 5,
-                    child: Text(
-                      '16 June 2025, 03:35 PM',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: gray900,
-                      ),
-                    ),
+                  decoration: const InputDecoration(
+                    hintText: 'Title here',
+                    hintStyle: TextStyle(color: gray300),
+                    border: InputBorder.none,
                   ),
-                ],
+                  canRequestFocus: !readOnly,
+                  onChanged: (newValue) {
+                    newNoteController.title = newValue;
+                  },
+                ),
               ),
-            ],
-            Row(
-              children: [
-                Expanded(
-                  flex: 3,
-                  child: Row(
-                    children: [
-                      Text(
-                        'Tags',
+              if (!widget.isNewNote) ...[
+                const Row(
+                  children: [
+                    Expanded(
+                      flex: 3,
+                      child: Text(
+                        'Last Modified',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: gray500,
                         ),
                       ),
-                      const SizedBox(width: 8),
-                      NoteIconButton(
-                        icon: FontAwesomeIcons.circlePlus,
-                        onPressed: () async {
-                          final String? tag = await showDialog<String?>(
-                            context: context,
-                            builder: (context) =>
-                                DialogCard(child: NewTagDialog()),
-                          );
-
-                          if (tag != null) {
-                            newNoteController.addTag(tag);
-                          }
-                        },
+                    ),
+                    Expanded(
+                      flex: 5,
+                      child: Text(
+                        '17 June 2025, 03:35 PM',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: gray900,
+                        ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                Expanded(
-                  flex: 5,
-                  child: Selector<NewNoteController, List<String>>(
-                    selector: (_, newNoteController) => newNoteController.tags,
-                    builder: (_, tags, __) => tags.isEmpty
-                        ? Text(
-                            'No tags added',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: gray900,
-                            ),
-                          )
-                        : SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: List.generate(
-                                tags.length,
-                                (index) =>
-                                    NoteTag(label: tags[index], onClosed: () {
-                                      newNoteController.removeTag(index);
-                                    }),
-                              ),
-                            ),
-                          ),
-                  ),
+                const Row(
+                  children: [
+                    Expanded(
+                      flex: 3,
+                      child: Text(
+                        'Created',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: gray500,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 5,
+                      child: Text(
+                        '16 June 2025, 03:35 PM',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: gray900,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
-            ),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: Row(
+                      children: [
+                        Text(
+                          'Tags',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: gray500,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        NoteIconButton(
+                          icon: FontAwesomeIcons.circlePlus,
+                          onPressed: () async {
+                            final String? tag = await showDialog<String?>(
+                              context: context,
+                              builder: (context) =>
+                                  DialogCard(child: NewTagDialog()),
+                            );
 
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.0),
-              child: Divider(color: gray500, thickness: 2),
-            ),
-            // Note input area
-            Selector<NewNoteController, bool>(
-              selector: (_, controller) => controller.readOnly,
-              builder: (_, readOnly, __) => SizedBox(
-                height: MediaQuery.of(context).size.height * 0.4,
-                child: TextField(
-                  controller: noteController,
-                  maxLines: null,
-                  expands: true,
-                  readOnly: readOnly,
-                  focusNode: focusNode,
-                  textAlignVertical: TextAlignVertical.top,
-                  style: TextStyle(fontSize: 16, color: colors.black),
-                  decoration: InputDecoration(
-                    hintText: 'Write your note here...',
-                    hintStyle: TextStyle(color: gray300),
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.all(8.0),
+                            if (tag != null) {
+                              newNoteController.addTag(tag);
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 5,
+                    child: Selector<NewNoteController, List<String>>(
+                      selector: (_, newNoteController) =>
+                          newNoteController.tags,
+                      builder: (_, tags, __) => tags.isEmpty
+                          ? Text(
+                              'No tags added',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: gray900,
+                              ),
+                            )
+                          : SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: List.generate(
+                                  tags.length,
+                                  (index) => NoteTag(
+                                    label: tags[index],
+                                    onClosed: () {
+                                      newNoteController.removeTag(index);
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                    ),
+                  ),
+                ],
+              ),
+
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 8.0),
+                child: Divider(color: gray500, thickness: 2),
+              ),
+              // Note input area
+              Selector<NewNoteController, bool>(
+                selector: (_, controller) => controller.readOnly,
+                builder: (_, readOnly, __) => SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.4,
+                  child: TextField(
+                    controller: noteController,
+                    maxLines: null,
+                    expands: true,
+                    readOnly: readOnly,
+                    focusNode: focusNode,
+                    textAlignVertical: TextAlignVertical.top,
+                    style: TextStyle(fontSize: 16, color: colors.black),
+                    decoration: InputDecoration(
+                      hintText: 'Write your note here...',
+                      hintStyle: TextStyle(color: gray300),
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.all(8.0),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

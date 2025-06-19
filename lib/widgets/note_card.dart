@@ -75,18 +75,18 @@ class NoteCard extends StatelessWidget {
                         style: const TextStyle(color: gray700),
                       ),
                     )
-                  :  Text(
+                  : Text(
                       note.content!,
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(color: gray700),
                     ),
-                    Spacer(),
+            if (isInGrid) Spacer(),
             Row(
               children: [
                 Text(
-                  DateFormat('dd MMM, y').format(DateTime.fromMicrosecondsSinceEpoch(note.dateCreated
-                  ),
+                  DateFormat('dd MMM, y').format(
+                    DateTime.fromMicrosecondsSinceEpoch(note.dateCreated),
                   ),
                   style: const TextStyle(
                     fontSize: 12,
