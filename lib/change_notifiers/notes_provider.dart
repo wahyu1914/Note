@@ -6,12 +6,18 @@ import '../enums/order_option.dart';
 class NotesProvider extends ChangeNotifier {
   final List<Note> _notes = [];
 
-  List<Note> get notes => [..._notes]
-    ..sort(_compare);
+  List<Note> get notes => [..._notes]..sort(_compare);
 
-int _compare (Note note1, note2) {
-  return note2.dateModified.compareTo(note1.dateModified);
-}
+  int _compare(Note note1, note2) {
+    return _orderBy == OrderOption.dateModified
+        ? _isDescending
+              ? note2.dateModified.compareTo(note1.dateModified)
+              : note1.dateModified.compareTo(note2.dateModified)
+        : _isDescending
+        ? note2.dateCreated.compareTo(note1.dateCreated)
+        : note1.dateCreated.compareTo(note2.dateCreated);
+  }
+
   void addNote(Note note) {
     _notes.add(note);
     notifyListeners();
