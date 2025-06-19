@@ -25,6 +25,7 @@ class _NoteMetadataState extends State<NoteMetadata> {
 
     newNoteController = context.read();
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
