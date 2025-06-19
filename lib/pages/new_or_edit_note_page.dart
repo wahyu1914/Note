@@ -74,6 +74,7 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
                     fontSize: 16, 
                     fontWeight: FontWeight.bold
                   ),
+                  textAlign: TextAlign.start,
                 ),
                 SizedBox(height: 16),
                 Row(

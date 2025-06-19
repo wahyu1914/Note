@@ -20,7 +20,7 @@ class NoteButton extends StatelessWidget {
         elevation: 0,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       ),
-      child: Text('Add'),
+      child: Text(label),
     );
   }
 }
