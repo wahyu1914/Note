@@ -56,6 +56,11 @@ class NewNoteController extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateTag(String tag, int index) {
+    _tags[index] = tag;
+    notifyListeners();
+  }
+
   bool get isNewNote => _note == null;
 
   bool get canSaveNote {
@@ -64,15 +69,17 @@ class NewNoteController extends ChangeNotifier {
         ? content.toPlainText().trim()
         : null;
 
-    if (isNewNote) {
-      return newTitle != null || newContent != null;
-    } else {
+    bool canSave = newTitle != null || newContent != null;
+
+    if (!isNewNote) {
       final newContentJson = jsonEncode(content.toDelta().toJson());
-      return (newTitle != note!.title ||
-              newContentJson != note!.contentJson ||
-              !listEquals(tags, note!.tags)) &&
-          (newTitle != null || newContent != null);
+      canSave &=
+          newTitle != note!.title ||
+          newContentJson != note!.contentJson ||
+          !listEquals(tags, note!.tags);
     }
+
+    return canSave;
   }
 
   void saveNote(BuildContext context) {
@@ -86,11 +93,12 @@ class NewNoteController extends ChangeNotifier {
       title: newTitle,
       content: newContent,
       contentJson: contentJson,
-      dateCreated: now,
+      dateCreated: isNewNote ? now : _note!.dateCreated,
       dateModified: now,
       tags: tags,
     );
 
-    context.read<NotesProvider>().addNote(note);
+    final notesProvider = context.read<NotesProvider>();
+    isNewNote ? notesProvider.addNote(note) : notesProvider.updateNote(note);
   }
 }

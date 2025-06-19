@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:project_note/change_notifiers/new_note_controller.dart';
 import 'package:project_note/core/constants.dart';
+import 'package:project_note/core/dialog.dart';
 import 'package:project_note/core/utils.dart';
 import 'package:project_note/models/note.dart';
 import 'package:project_note/widgets/dialog_card.dart';
@@ -11,7 +12,7 @@ import 'package:project_note/widgets/note_tag.dart';
 import 'package:provider/provider.dart';
 
 class NoteMetadata extends StatefulWidget {
-  const NoteMetadata({ required this.note, super.key});
+  const NoteMetadata({required this.note, super.key});
 
   final Note? note;
 
@@ -88,9 +89,8 @@ class _NoteMetadataState extends State<NoteMetadata> {
                   NoteIconButton(
                     icon: FontAwesomeIcons.circlePlus,
                     onPressed: () async {
-                      final String? tag = await showDialog<String?>(
+                      final String? tag = await showNewTagDialog(
                         context: context,
-                        builder: (context) => DialogCard(child: NewTagDialog()),
                       );
 
                       if (tag != null) {
@@ -122,6 +122,16 @@ class _NoteMetadataState extends State<NoteMetadata> {
                               label: tags[index],
                               onClosed: () {
                                 newNoteController.removeTag(index);
+                              },
+                              onTap: () async {
+                                final String? tag = await showNewTagDialog(
+                                  context: context,
+                                  tag: tags[index],
+                                );
+
+                                if (tag != null && tag != tag[index]) {
+                                  newNoteController.updateTag(tag, index);
+                                }
                               },
                             ),
                           ),

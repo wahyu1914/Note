@@ -4,7 +4,9 @@ import '../core/constants.dart';
 import 'note_button.dart';
 
 class NewTagDialog extends StatefulWidget {
-  const NewTagDialog({super.key});
+  const NewTagDialog({super.key, this.tag});
+
+  final String? tag;
 
   @override
   State<NewTagDialog> createState() => _NewTagDialogState();
@@ -19,7 +21,7 @@ class _NewTagDialogState extends State<NewTagDialog> {
   void initState() {
     super.initState();
 
-    tagController = TextEditingController();
+    tagController = TextEditingController(text: widget.tag);
 
     tagKey = GlobalKey();
   }
