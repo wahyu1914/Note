@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:project_note/change_notifiers/new_note_controller.dart';
 import 'package:project_note/change_notifiers/notes_provider.dart';
+import 'package:project_note/core/dialog.dart';
 import 'package:project_note/core/utils.dart';
 import 'package:provider/provider.dart';
 
@@ -101,11 +101,20 @@ class NoteCard extends StatelessWidget {
                 ),
                 const Spacer(),
                 GestureDetector(
-                  onTap: () {
-                    
-                    context.read<NotesProvider>().deleteNote(note);
+                  onTap: () async {
+                    final shouldDelete =
+                        await showConfirmationDialog(context: context) ?? false;
+
+                    if (shouldDelete && context.mounted) {
+                      context.read<NotesProvider>().deleteNote(note);
+                    }
                   },
-                  child: FaIcon(FontAwesomeIcons.trash, color: gray500, size: 16)),
+                  child: FaIcon(
+                    FontAwesomeIcons.trash,
+                    color: gray500,
+                    size: 16,
+                  ),
+                ),
               ],
             ),
           ],
