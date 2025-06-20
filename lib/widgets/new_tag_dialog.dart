@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_note/widgets/note_form_field.dart';
 
-import '../core/constants.dart';
 import 'note_button.dart';
 
 class NewTagDialog extends StatefulWidget {

@@ -6,7 +6,6 @@ import 'package:project_note/firebase_options.dart';
 import 'package:project_note/pages/registration_page.dart';
 import 'package:provider/provider.dart';
 
-import 'pages/main_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
