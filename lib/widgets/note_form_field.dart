@@ -10,6 +10,10 @@ class NoteFormField extends StatelessWidget {
     this.validator,
     this.onChanged,
     this.autofocus = false,
+    this.filled,
+    this.fillColor,
+    this.labelText,
+    this.suffixIcon,
   });
 
   final TextEditingController? controller;
@@ -17,6 +21,10 @@ class NoteFormField extends StatelessWidget {
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
   final bool autofocus;
+  final bool? filled;
+  final Color? fillColor;
+  final String? labelText;
+  final Widget? suffixIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +34,12 @@ class NoteFormField extends StatelessWidget {
       autofocus: autofocus,
       decoration: InputDecoration(
         hintText: hintText,
+        labelText: labelText,
         contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         isDense: true,
+        filled: filled,
+        fillColor: fillColor,
+        suffixIcon: suffixIcon,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(color: primary),
