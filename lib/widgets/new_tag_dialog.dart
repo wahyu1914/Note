@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_note/widgets/note_form_field.dart';
 
 import '../core/constants.dart';
 import 'note_button.dart';
@@ -44,31 +45,10 @@ class _NewTagDialogState extends State<NewTagDialog> {
           textAlign: TextAlign.left,
         ),
         SizedBox(height: 24),
-        TextFormField(
+        NoteFormField(
           key: tagKey,
           controller: tagController,
-          autofocus: true,
-          decoration: InputDecoration(
-            hintText: 'Add tag (< 16 characters)',
-            contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-            isDense: true,
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: primary),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: primary),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: Colors.red),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: Colors.red),
-            ),
-          ),
+          hintText: 'Add tag (< 16 characters)',
           validator: (value) {
             if (value!.trim().isEmpty) {
               return 'No tags added';
@@ -80,6 +60,7 @@ class _NewTagDialogState extends State<NewTagDialog> {
           onChanged: (newValue) {
             tagKey.currentState?.validate();
           },
+          autofocus: true,
         ),
         SizedBox(height: 24),
         NoteButton(
@@ -94,3 +75,4 @@ class _NewTagDialogState extends State<NewTagDialog> {
     );
   }
 }
+
