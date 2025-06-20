@@ -65,19 +65,19 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       Text(
                         isRegisterMode ? 'Register' : 'Sign In',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 48,
                           fontFamily: 'Fredoka',
                           fontWeight: FontWeight.w600,
                           color: primary,
                         ),
                       ),
-                      SizedBox(height: 16),
-                      Text(
+                      const SizedBox(height: 16),
+                      const Text(
                         'In order to sync your notes to cloud, you have to register/sign in to the app',
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(height: 48),
+                      const SizedBox(height: 48),
                       if (isRegisterMode) ...[
                         NoteFormField(
                           controller: nameController,
@@ -88,7 +88,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           textInputAction: TextInputAction.next,
                           validator: Validator.nameValidator,
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                       ],
                       NoteFormField(
                         controller: emailController,
