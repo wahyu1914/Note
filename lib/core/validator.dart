@@ -29,6 +29,29 @@ class Validator {
   static String? passwordValidator(String? password) {
     password = password?.trim() ?? '';
 
-    return password.isEmpty ? 'No password provided!' : null;
+    String errorMessage = '';
+    if (password.isEmpty) {
+      errorMessage = 'No password provided!';
+    } else {
+      if (password.length < 6) {
+        errorMessage = 'Password must be at least 6 characters long!';
+      }
+
+      if (!password.contains(RegExp(r'[a-z]'))) {
+        errorMessage =
+            '$errorMessage\nPassword must contain at least one lowercase letter';
+      }
+
+      if (!password.contains(RegExp(r'[A-Z]'))) {
+        errorMessage =
+            '$errorMessage\nPassword must contain at least one uppercase letter';
+      }
+
+      if (!password.contains(RegExp(r'[0-9]'))) {
+        errorMessage =
+            '$errorMessage\nPassword must contain at least one number';
+      }
+    }
+    return errorMessage.isNotEmpty ? errorMessage.trim() : null;
   }
 }
