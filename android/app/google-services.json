@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "758765457016",
+    "project_id": "aplikasi-note-mplatfor",
+    "storage_bucket": "aplikasi-note-mplatfor.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:758765457016:android:d32ff29643bc8da23b278d",
+        "android_client_info": {
+          "package_name": "com.example.project_note"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQduqCz8vQ4tMSPZYAxtuzLcjfcVdugeY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
