@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:project_note/change_notifiers/notes_provider.dart';
 import 'package:project_note/core/constants.dart';
 import 'package:project_note/firebase_options.dart';
+import 'package:project_note/pages/main_page.dart';
 import 'package:project_note/pages/registration_page.dart';
 import 'package:provider/provider.dart';
 
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        home: const RegistrationPage(),
+        home: const MainPage(),
       ),
     );
   }
