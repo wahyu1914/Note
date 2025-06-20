@@ -17,5 +17,3 @@ x86/
 !*.[Cc]ache/
 
 # firebase_options.dart
-
-lib\firebase_options.dart
