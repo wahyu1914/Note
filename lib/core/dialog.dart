@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:project_note/widgets/dialog_card.dart';
 import 'package:project_note/widgets/message_dialog.dart';
 
 import '../widgets/confirmation_dialog.dart';

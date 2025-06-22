@@ -1,9 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:project_note/Services/auth_service.dart';
 import 'package:project_note/change_notifiers/notes_provider.dart';
 import 'package:project_note/change_notifiers/registration_controller.dart';
 import 'package:project_note/core/constants.dart';
 import 'package:project_note/firebase_options.dart';
+import 'package:project_note/pages/main_page.dart';
 /*import 'package:project_note/pages/main_page.dart';*/
 import 'package:project_note/pages/registration_page.dart';
 import 'package:provider/provider.dart';
@@ -42,7 +45,14 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        home: const RegistrationPage(),
+        home: StreamBuilder<User?>(
+          stream: AuthService.userStream,
+          builder: (context, snapshot) {
+            return snapshot.hasData
+                ? const MainPage()
+                : const RegistrationPage();
+          },
+        ),
       ),
     );
   }
