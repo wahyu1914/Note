@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
         home: StreamBuilder<User?>(
           stream: AuthService.userStream,
           builder: (context, snapshot) {
-            return snapshot.hasData
+            return snapshot.hasData && AuthService.isEmailVerified
                 ? const MainPage()
                 : const RegistrationPage();
           },

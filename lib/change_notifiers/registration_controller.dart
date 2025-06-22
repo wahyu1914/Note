@@ -61,7 +61,22 @@ class RegistrationController extends ChangeNotifier {
           email: email,
           password: password,
         );
+
+        if (!context.mounted) return;
+        showMessageDialog(
+          context: context,
+          message:
+              'A verification email was sent to the provided email address. Please confirm your email to proceed to the app.',
+        );
+        //reload user
+        while (!AuthService.isEmailVerified) {
+          await Future.delayed(
+            const Duration(seconds: 5),
+            () => AuthService.user?.reload(),
+          );
+        }
       } else {
+        
         // Sign in user
       }
     } on FirebaseAuthException catch (e) {
@@ -73,8 +88,7 @@ class RegistrationController extends ChangeNotifier {
     } catch (e) {
       if (!context.mounted) return;
       showMessageDialog(context: context, message: 'An unknown error occured');
-    }
-    finally {
+    } finally {
       isLoading = false;
     }
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:project_note/Services/auth_service.dart';
 import 'package:project_note/change_notifiers/new_note_controller.dart';
 import 'package:project_note/change_notifiers/notes_provider.dart';
 import 'package:project_note/pages/new_or_edit_note_page.dart';
@@ -26,11 +27,13 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Kelompok 1 Notes'),
+        title: const Text('Project Multiplatform Notes'),
         actions: [
           NoteIconButtonOutlined(
             icon: FontAwesomeIcons.arrowRightFromBracket,
-            onPressed: () {},
+            onPressed: () {
+              AuthService.logout();
+            },
           ),
         ],
       ),
