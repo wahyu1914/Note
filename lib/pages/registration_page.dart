@@ -102,8 +102,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         textInputAction: TextInputAction.next,
                         validator: Validator.emailValidator,
                         onChanged: (newValue) {
-                            registrationController.email = newValue;
-                          },
+                          registrationController.email = newValue;
+                        },
                       ),
                       SizedBox(height: 8),
                       Selector<RegistrationController, bool>(
@@ -151,7 +151,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               ? 'Create My Account'
                               : 'Log me in',
                           onPressed: () {
-                            formKey.currentState?.validate();
+                            if (formKey.currentState?.validate() ?? false) {
+                              registrationController
+                                  .authenticateWithEmailAndPassword(
+                                    context: context,
+                                  );
+                            }
                           },
                         ),
                       ),

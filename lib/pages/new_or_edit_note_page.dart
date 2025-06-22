@@ -32,7 +32,9 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
     newNoteController = context.read<NewNoteController>();
 
     titleController = TextEditingController(text: newNoteController.title);
-    noteController = TextEditingController(text: newNoteController.content.toPlainText());
+    noteController = TextEditingController(
+      text: newNoteController.content.toPlainText(),
+    );
 
     focusNode = FocusNode();
 
@@ -67,7 +69,10 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
           return;
         }
 
-        final bool? shouldSave = await showConfirmationDialog(context: context);
+        final bool? shouldSave = await showConfirmationDialog(
+          context: context,
+          title: 'Do you want to save the note?',
+        );
         if (shouldSave == null) return;
 
         if (!context.mounted) return;
@@ -171,8 +176,9 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
                     ),
                     onChanged: (newValue) {
                       // Convert String to Document for flutter_quill
-                      newNoteController.content = Document()..insert(0, newValue);
-                    }
+                      newNoteController.content = Document()
+                        ..insert(0, newValue);
+                    },
                   ),
                 ),
               ),

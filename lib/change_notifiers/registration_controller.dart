@@ -1,6 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:project_note/Services/auth_service.dart';
+import 'package:project_note/core/constants.dart';
+import 'package:project_note/core/dialog.dart';
 
-class RegistrationController extends ChangeNotifier{
+class RegistrationController extends ChangeNotifier {
   bool _isRegisterMode = true;
   bool get isRegisterMode => _isRegisterMode;
   set isRegisterMode(bool value) {
@@ -38,4 +42,29 @@ class RegistrationController extends ChangeNotifier{
   }
 
   String get password => _password;
+
+  Future<void> authenticateWithEmailAndPassword({
+    required BuildContext context,
+  }) async {
+    try {
+      if (_isRegisterMode) {
+        AuthService.register(
+          fullName: fullName,
+          email: email,
+          password: password,
+        );
+      } else {
+        // Sign in user
+      }
+    } on FirebaseAuthException catch (e) {
+      if (!context.mounted) return;
+      showMessageDialog(
+        context: context,
+        message: authExceptionMapper[e.code] ?? 'An unknown error occured',
+      );
+    } catch (e) {
+      if (!context.mounted) return;
+      showMessageDialog(context: context, message: 'An unknown error occured');
+    }
+  }
 }
