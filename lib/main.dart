@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => RegistrationController()),
       ],
       child: MaterialApp(
-        title: 'Project Notes',
+        title: 'Project Multiplatform Notes',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: primary),
           useMaterial3: true,

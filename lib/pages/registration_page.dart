@@ -87,6 +87,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           textCapitalization: TextCapitalization.sentences,
                           textInputAction: TextInputAction.next,
                           validator: Validator.nameValidator,
+                          onChanged: (newValue) {
+                            registrationController.fullName = newValue;
+                          },
                         ),
                         const SizedBox(height: 8),
                       ],
@@ -98,6 +101,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         keyboardType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
                         validator: Validator.emailValidator,
+                        onChanged: (newValue) {
+                            registrationController.email = newValue;
+                          },
                       ),
                       SizedBox(height: 8),
                       Selector<RegistrationController, bool>(
@@ -122,6 +128,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             ),
                           ),
                           validator: Validator.passwordValidator,
+                          onChanged: (newValue) {
+                            registrationController.password = newValue;
+                          },
                         ),
                       ),
                       SizedBox(height: 12),
