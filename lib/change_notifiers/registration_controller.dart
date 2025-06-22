@@ -43,9 +43,17 @@ class RegistrationController extends ChangeNotifier {
 
   String get password => _password;
 
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+  set isLoading(bool value) {
+    _isLoading = value;
+    notifyListeners();
+  }
+
   Future<void> authenticateWithEmailAndPassword({
     required BuildContext context,
   }) async {
+    isLoading = true;
     try {
       if (_isRegisterMode) {
         AuthService.register(
@@ -65,6 +73,9 @@ class RegistrationController extends ChangeNotifier {
     } catch (e) {
       if (!context.mounted) return;
       showMessageDialog(context: context, message: 'An unknown error occured');
+    }
+    finally {
+      isLoading = false;
     }
   }
 }

@@ -23,7 +23,7 @@ class MessageDialog extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               NoteButton(
-                label: 'OK',
+                child: Text('OK'),
                 onPressed: () => Navigator.pop(context),
               ),
             ],

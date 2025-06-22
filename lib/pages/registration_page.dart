@@ -146,18 +146,34 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       ],
                       SizedBox(
                         height: 48,
-                        child: NoteButton(
-                          label: isRegisterMode
-                              ? 'Create My Account'
-                              : 'Log me in',
-                          onPressed: () {
-                            if (formKey.currentState?.validate() ?? false) {
-                              registrationController
-                                  .authenticateWithEmailAndPassword(
-                                    context: context,
-                                  );
-                            }
-                          },
+                        child: Selector<RegistrationController, bool>(
+                          selector: (_, controller) => controller.isLoading,
+                          builder: (_, isLoading, __) => NoteButton(
+                            onPressed: isLoading
+                                ? null
+                                : () {
+                                    if (formKey.currentState?.validate() ??
+                                        false) {
+                                      registrationController
+                                          .authenticateWithEmailAndPassword(
+                                            context: context,
+                                          );
+                                    }
+                                  },
+                            child: isLoading
+                                ? const SizedBox(
+                                    width: 24,
+                                    height: 24,
+                                    child: CircularProgressIndicator(
+                                      color: white,
+                                    ),
+                                  )
+                                : Text(
+                                    isRegisterMode
+                                        ? 'Create My Account'
+                                        : 'Log me in',
+                                  ),
+                          ),
                         ),
                       ),
                       SizedBox(height: 32),

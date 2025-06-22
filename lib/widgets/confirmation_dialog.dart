@@ -23,13 +23,13 @@ class ConfirmationDialog extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               NoteButton(
-                label: 'No',
                 onPressed: () => Navigator.pop(context, false),
                 isOutlined: true,
+                child: Text('No'),
               ),
               SizedBox(width: 8),
               NoteButton(
-                label: 'Yes',
+                child: Text('Yes'),
                 onPressed: () => Navigator.pop(context, true),
               ),
             ],

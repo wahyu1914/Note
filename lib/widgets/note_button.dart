@@ -5,12 +5,12 @@ import '../core/constants.dart';
 class NoteButton extends StatelessWidget {
   const NoteButton({
     super.key,
-    required this.label,
+    required this.child,
     this.isOutlined = false,
     this.onPressed,
   });
 
-  final String label;
+  final Widget child;
   final VoidCallback? onPressed;
   final bool isOutlined;
 
@@ -33,7 +33,7 @@ class NoteButton extends StatelessWidget {
           elevation: 0,
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
-        child: Text(label),
+        child: child,
       ),
     );
   }

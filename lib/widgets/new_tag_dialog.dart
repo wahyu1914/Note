@@ -65,7 +65,7 @@ class _NewTagDialogState extends State<NewTagDialog> {
           ),
           SizedBox(height: 24),
           NoteButton(
-            label: 'Add',
+            child: Text('Add'),
             onPressed: () {
               if (tagKey.currentState?.validate() ?? false) {
                 Navigator.pop(context, tagController.text.trim());

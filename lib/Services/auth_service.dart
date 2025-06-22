@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthService {
   AuthService._();
 
+static final _auth = FirebaseAuth.instance;
+
   static Future<void> register({
     required String fullName,
     required String email,
