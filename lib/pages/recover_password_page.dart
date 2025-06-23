@@ -60,13 +60,6 @@ class _RecoverPasswordPageState extends State<RecoverPasswordPage> {
               child: Selector<RegistrationController, bool>(
                 selector: (_, controller) => controller.isLoading,
                 builder: (_, isLoading, __) => NoteButton(
-                  child: isLoading
-                      ? SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: CircularProgressIndicator(color: white,),
-                        )
-                      : Text('Send me a recovery link!'),
                   onPressed: isLoading ? null : () {
                     if (emailKey.currentState?.validate() ?? false) {
                       context.read<RegistrationController>().resetPassword(
@@ -75,6 +68,13 @@ class _RecoverPasswordPageState extends State<RecoverPasswordPage> {
                       );
                     }
                   },
+                  child: isLoading
+                      ? SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: CircularProgressIndicator(color: white,),
+                        )
+                      : Text('Send me a recovery link!'),
                 ),
               ),
             ),
