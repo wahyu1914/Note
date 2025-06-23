@@ -39,7 +39,7 @@ class _MainPageState extends State<MainPage> {
                     title: "Do you want to sign out?",
                   ) ??
                   false;
-                  if (shouldLogout) AuthService.logout();
+              if (shouldLogout) AuthService.logout();
               AuthService.logout();
             },
           ),
