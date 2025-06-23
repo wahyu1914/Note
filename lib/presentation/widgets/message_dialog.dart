@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project_note/widgets/dialog_card.dart';
-import 'package:project_note/widgets/note_button.dart';
+import 'package:project_note/presentation/widgets/dialog_card.dart';
+import 'package:project_note/presentation/widgets/note_button.dart';
 
 class MessageDialog extends StatelessWidget {
   const MessageDialog({super.key, required this.message});

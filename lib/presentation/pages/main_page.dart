@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:project_note/Services/auth_service.dart';
-import 'package:project_note/change_notifiers/new_note_controller.dart';
-import 'package:project_note/change_notifiers/notes_provider.dart';
-import 'package:project_note/core/dialog.dart';
-import 'package:project_note/pages/new_or_edit_note_page.dart';
-import 'package:project_note/widgets/no_notes.dart';
-import 'package:project_note/widgets/note_icon_button_outlined.dart';
+import 'package:project_note/presentation/controllers/new_note_controller.dart';
+import 'package:project_note/presentation/controllers/notes_provider.dart';
+import 'package:project_note/core/dialog/dialog.dart';
+import 'package:project_note/presentation/pages/new_or_edit_note_page.dart';
+import 'package:project_note/presentation/widgets/no_notes.dart';
+import 'package:project_note/presentation/widgets/note_icon_button_outlined.dart';
 import 'package:provider/provider.dart';
 
-import '../models/note.dart';
+import '../../domain/entities/note.dart';
 import '../widgets/note_fab.dart';
 import '../widgets/note_grid.dart';
 import '../widgets/notes_list.dart';

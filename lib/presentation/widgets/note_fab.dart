@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../core/constants.dart';
+import '../../core/constants/constants.dart';
 
 class NoteFab extends StatelessWidget {
   const NoteFab({required this.onPressed, super.key});

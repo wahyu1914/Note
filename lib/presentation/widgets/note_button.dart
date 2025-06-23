@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../core/constants.dart';
+import '../../core/constants/constants.dart';
 
 class NoteButton extends StatelessWidget {
   const NoteButton({

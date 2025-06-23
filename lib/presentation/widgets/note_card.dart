@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:project_note/change_notifiers/new_note_controller.dart';
-import 'package:project_note/change_notifiers/notes_provider.dart';
-import 'package:project_note/core/dialog.dart';
-import 'package:project_note/core/utils.dart';
+import 'package:project_note/presentation/controllers/new_note_controller.dart';
+import 'package:project_note/presentation/controllers/notes_provider.dart';
+import 'package:project_note/core/dialog/dialog.dart';
+import 'package:project_note/core/utils/utils.dart';
 import 'package:provider/provider.dart';
 
-import '../core/constants.dart';
+import '../../core/constants/constants.dart';
 
-import '../models/note.dart';
+import '../../domain/entities/note.dart';
 
 import '../pages/new_or_edit_note_page.dart';
 import 'note_tag.dart';

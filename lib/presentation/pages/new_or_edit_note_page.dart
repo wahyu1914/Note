@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:project_note/change_notifiers/new_note_controller.dart';
-import 'package:project_note/core/constants.dart';
-import 'package:project_note/core/constants.dart' as colors;
-import 'package:project_note/widgets/note_back_button.dart';
-import 'package:project_note/widgets/note_icon_button_outlined.dart';
-import 'package:project_note/widgets/note_metadata.dart';
+import 'package:project_note/presentation/controllers/new_note_controller.dart';
+import 'package:project_note/core/constants/constants.dart';
+import 'package:project_note/core/constants/constants.dart' as colors;
+import 'package:project_note/presentation/widgets/note_back_button.dart';
+import 'package:project_note/presentation/widgets/note_icon_button_outlined.dart';
+import 'package:project_note/presentation/widgets/note_metadata.dart';
 import 'package:provider/provider.dart';
 
-import '../core/dialog.dart';
+import '../../core/dialog/dialog.dart';
 
 class NewOrEditNotePage extends StatefulWidget {
   const NewOrEditNotePage({required this.isNewNote, super.key});

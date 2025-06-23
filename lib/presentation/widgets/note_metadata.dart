@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:project_note/change_notifiers/new_note_controller.dart';
-import 'package:project_note/core/constants.dart';
-import 'package:project_note/core/dialog.dart';
-import 'package:project_note/core/utils.dart';
-import 'package:project_note/models/note.dart';
-import 'package:project_note/widgets/note_icon_button.dart';
-import 'package:project_note/widgets/note_tag.dart';
+import 'package:project_note/presentation/controllers/new_note_controller.dart';
+import 'package:project_note/core/constants/constants.dart';
+import 'package:project_note/core/dialog/dialog.dart';
+import 'package:project_note/core/utils/utils.dart';
+import 'package:project_note/domain/entities/note.dart';
+import 'package:project_note/presentation/widgets/note_icon_button.dart';
+import 'package:project_note/presentation/widgets/note_tag.dart';
 import 'package:provider/provider.dart';
 
 class NoteMetadata extends StatefulWidget {

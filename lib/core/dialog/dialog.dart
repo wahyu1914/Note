@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:project_note/widgets/message_dialog.dart';
+import 'package:project_note/presentation/widgets/message_dialog.dart';
 
-import '../widgets/confirmation_dialog.dart';
-import '../widgets/new_tag_dialog.dart';
+import '../../presentation/widgets/confirmation_dialog.dart';
+import '../../presentation/widgets/new_tag_dialog.dart';
 
 Future<String?> showNewTagDialog({required BuildContext context, String? tag}) {
   return showDialog<String?>(

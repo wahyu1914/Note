@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:project_note/change_notifiers/registration_controller.dart';
-import 'package:project_note/core/constants.dart';
-import 'package:project_note/core/validator.dart';
-import 'package:project_note/widgets/note_back_button.dart';
-import 'package:project_note/widgets/note_button.dart';
-import 'package:project_note/widgets/note_form_field.dart';
+import 'package:project_note/presentation/controllers/registration_controller.dart';
+import 'package:project_note/core/constants/constants.dart';
+import 'package:project_note/core/validator/validator.dart';
+import 'package:project_note/presentation/widgets/note_back_button.dart';
+import 'package:project_note/presentation/widgets/note_button.dart';
+import 'package:project_note/presentation/widgets/note_form_field.dart';
 import 'package:provider/provider.dart';
 
 class RecoverPasswordPage extends StatefulWidget {

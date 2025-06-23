@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:project_note/change_notifiers/notes_provider.dart';
-import 'package:project_note/models/note.dart';
+import 'package:project_note/presentation/controllers/notes_provider.dart';
+import 'package:project_note/domain/entities/note.dart';
 import 'package:provider/provider.dart';
 
 class NewNoteController extends ChangeNotifier {

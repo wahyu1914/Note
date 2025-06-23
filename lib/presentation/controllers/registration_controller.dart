@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_note/Services/auth_service.dart';
-import 'package:project_note/core/constants.dart';
-import 'package:project_note/core/dialog.dart';
+import 'package:project_note/core/constants/constants.dart';
+import 'package:project_note/core/dialog/dialog.dart';
 
 class RegistrationController extends ChangeNotifier {
   bool _isRegisterMode = true;
