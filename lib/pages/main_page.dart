@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:project_note/Services/auth_service.dart';
 import 'package:project_note/change_notifiers/new_note_controller.dart';
 import 'package:project_note/change_notifiers/notes_provider.dart';
+import 'package:project_note/core/dialog.dart';
 import 'package:project_note/pages/new_or_edit_note_page.dart';
 import 'package:project_note/widgets/no_notes.dart';
 import 'package:project_note/widgets/note_icon_button_outlined.dart';
@@ -31,7 +32,14 @@ class _MainPageState extends State<MainPage> {
         actions: [
           NoteIconButtonOutlined(
             icon: FontAwesomeIcons.arrowRightFromBracket,
-            onPressed: () {
+            onPressed: () async {
+              final bool shouldLogout =
+                  await showConfirmationDialog(
+                    context: context,
+                    title: "Do you want to sign out?",
+                  ) ??
+                  false;
+                  if (shouldLogout) AuthService.logout();
               AuthService.logout();
             },
           ),

@@ -28,5 +28,19 @@ class AuthService {
     }
   }
 
+  static Future<void> login({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  static Future<void> resetPassword({required String email}) =>
+      _auth.sendPasswordResetEmail(email: email);
+
   static Future<void> logout() => _auth.signOut();
 }

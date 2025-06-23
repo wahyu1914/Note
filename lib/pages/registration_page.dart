@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:project_note/change_notifiers/registration_controller.dart';
 import 'package:project_note/core/validator.dart';
+import 'package:project_note/pages/recover_password_page.dart';
 import 'package:project_note/widgets/note_button.dart';
 import 'package:project_note/widgets/note_form_field.dart';
 import 'package:project_note/widgets/note_icon_button_outlined.dart';
@@ -135,11 +136,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       ),
                       SizedBox(height: 12),
                       if (!isRegisterMode) ...[
-                        Text(
-                          'Forgot password?',
-                          style: TextStyle(
-                            color: primary,
-                            fontWeight: FontWeight.bold,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (_) => const RecoverPasswordPage(),),);
+                          },
+                          child: Text(
+                            'Forgot password?',
+                            style: TextStyle(
+                              color: primary,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                         SizedBox(height: 24),

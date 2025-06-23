@@ -76,9 +76,36 @@ class RegistrationController extends ChangeNotifier {
           );
         }
       } else {
-        
+        await AuthService.login(email: email, password: password);
         // Sign in user
       }
+    } on FirebaseAuthException catch (e) {
+      if (!context.mounted) return;
+      showMessageDialog(
+        context: context,
+        message: authExceptionMapper[e.code] ?? 'An unknown error occured',
+      );
+    } catch (e) {
+      if (!context.mounted) return;
+      showMessageDialog(context: context, message: 'An unknown error occured');
+    } finally {
+      isLoading = false;
+    }
+  }
+
+  Future<void> resetPassword({
+    required BuildContext context,
+    required String email,
+  }) async {
+    isLoading = true;
+    try {
+      await AuthService.resetPassword(email: email);
+      if (!context.mounted) return;
+      showMessageDialog(
+        context: context,
+        message:
+            'A reset password link has been sent to $email. Open the link to reset your password.',
+      );
     } on FirebaseAuthException catch (e) {
       if (!context.mounted) return;
       showMessageDialog(

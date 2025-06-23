@@ -28,6 +28,8 @@ class NoteButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: isOutlined ? white : primary,
           foregroundColor: isOutlined ? primary : white,
+          disabledBackgroundColor: gray300,
+          disabledForegroundColor: black,
           side: BorderSide(color: isOutlined ? primary : black),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           elevation: 0,

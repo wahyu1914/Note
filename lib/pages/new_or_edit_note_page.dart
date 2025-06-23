@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:project_note/change_notifiers/new_note_controller.dart';
 import 'package:project_note/core/constants.dart';
 import 'package:project_note/core/constants.dart' as colors;
+import 'package:project_note/widgets/note_back_button.dart';
 import 'package:project_note/widgets/note_icon_button_outlined.dart';
 import 'package:project_note/widgets/note_metadata.dart';
 import 'package:provider/provider.dart';
@@ -84,15 +85,7 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          leading: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: NoteIconButtonOutlined(
-              icon: FontAwesomeIcons.chevronLeft,
-              onPressed: () {
-                Navigator.maybePop(context);
-              },
-            ),
-          ),
+          leading: NoteBackButton(),
           title: Text(widget.isNewNote ? 'New Note' : 'Edit Note'),
           actions: [
             Selector<NewNoteController, bool>(
@@ -189,3 +182,4 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
     );
   }
 }
+

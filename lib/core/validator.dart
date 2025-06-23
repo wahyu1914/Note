@@ -22,7 +22,7 @@ class Validator {
     return email.isEmpty
         ? 'No email provided!'
         : !RegExp(_emailPattern).hasMatch(email)
-        ? 'Password is not in a valid format!'
+        ? 'Email is not in a valid format!'
         : null;
   }
 
