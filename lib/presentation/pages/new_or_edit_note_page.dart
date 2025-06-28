@@ -168,7 +168,6 @@ class _NewOrEditNotePageState extends State<NewOrEditNotePage> {
                       contentPadding: EdgeInsets.all(8.0),
                     ),
                     onChanged: (newValue) {
-                      // Convert String to Document for flutter_quill
                       newNoteController.content = Document()
                         ..insert(0, newValue);
                     },
